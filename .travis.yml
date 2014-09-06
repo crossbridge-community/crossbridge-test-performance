@@ -27,11 +27,21 @@ git:
 language: objective-c
 
 before_script:
-    - brew update
-    - brew install adobe-air-sdk
+    # Update Brew silently
+    - brew update >brew-update.log
+    # Install Brew Packages silently
+    - brew install adobe-air-sdk >brew-install.log
+    # Adobe Flash Player for CLI
+    - brew install caskroom/cask/brew-cask
+    - brew cask install flash-player-debugger
+    # Set common FP variables
+    - export FLASHPLAYER_DEBUGGER="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
+    - export FLASH_PLAYER_EXE="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
+    # Set Adobe AIR SDK
     - mkdir -p /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/11.1/
     - cp -f /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/14.0/playerglobal.swc /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/11.1/
     - "export AIR_HOME=/usr/local/opt/adobe-air-sdk/libexec"
+    # Set CrossBridge SDK
     - mkdir -p ./crossbridge
     - mkdir -p ./mymount
     - wget -i install.txt
