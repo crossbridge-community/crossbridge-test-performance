@@ -39,7 +39,7 @@ before_script:
     - export FLASH_PLAYER_EXE="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
     # Set Adobe AIR SDK
     - mkdir -p /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/11.1/
-    - cp -f /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/14.0/playerglobal.swc /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/11.1/
+    - cp -f /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/15.0/playerglobal.swc /usr/local/opt/adobe-air-sdk/libexec/frameworks/libs/player/11.1/
     - "export AIR_HOME=/usr/local/opt/adobe-air-sdk/libexec"
     # Set CrossBridge SDK
     - mkdir -p ./crossbridge
