@@ -70,6 +70,7 @@ task compile(type: JavaExec) {
                 '-debug=false',
                 '-source-path+=client',
                 '-library-path+=release',
+                '-library-path+=src/main/libs',
                 '-output="build/Main.swf"'
             ]
     def airConfig = "${AIR_HOME}" + '/frameworks/flex-config.xml'
