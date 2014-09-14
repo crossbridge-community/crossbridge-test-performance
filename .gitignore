@@ -29,14 +29,10 @@
 
 *.swf
 *.abc
+*.as3
 *.bc
 *.o
-
-# Lib output
-MyLib.abc
-MyLib.as3
-MyLib.swc
-MyLib_wrapper.c
+*_wrapper.c
 
 # Folders
 .gradle/
