@@ -63,7 +63,7 @@ all: clean
 	# rename the output so the compiler doesn't accidentally use both this .as file along with the .abc file we just produced
 	mv MyLib.as MyLib.as3
 	@echo "-> Compile the library into a SWC"
-	"$(FLASCC)/usr/bin/gcc" $(CFLAGS) MyLib.abc MyLib_wrapper.c mylibmain.c mylib.c -emit-swc=sample.MyLib -o release/MyLib.swc
+	"$(FLASCC)/usr/bin/gcc" $(CFLAGS) MyLib.abc MyLib_wrapper.c mylibmain.c mylib.c -emit-swc=crossbridge.MyLib -o release/MyLib.swc
 	@echo "-> Compile an example SWF that uses that SWC"
 	"$(FLEX)/bin/mxmlc" -library-path+=release/MyLib.swc PassData.as -debug=false -o build/PassData.swf
 

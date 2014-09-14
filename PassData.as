@@ -29,12 +29,8 @@
 
 package
 {
-    import sample.MyLib.ram;
-    
-    import MyLib;
-    
-    import sample.MyLib.CModule;
-    
+    import crossbridge.MyLib.ram;
+    import crossbridge.MyLib.CModule;
     import flash.display.Sprite;
     import flash.events.Event;
     import flash.text.TextField;
@@ -92,9 +88,9 @@ package
             // 
             // In this case we want to make it easy to create this value in ActionScript and make sure that if
             // we call any functions in C where it modifies this object that those modifications are reflected
-            // in the ActionScript object.  To do this we pass the main memory as the first parameter (sample.MyLib.ram)
+            // in the ActionScript object.  To do this we pass the main memory as the first parameter (crossbridge.MyLib.ram)
             // and the pointer to the memory we just malloc'd there (myPlayerPtr)
-            var myPlayer:HockeyPlayerValue = new HockeyPlayerValue(sample.MyLib.ram, myPlayerPtr);
+            var myPlayer:HockeyPlayerValue = new HockeyPlayerValue(crossbridge.MyLib.ram, myPlayerPtr);
             
             // now we can modify this object easily in ActionScript
             myPlayer.goals = 1;

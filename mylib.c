@@ -39,6 +39,50 @@ int ccfibonacci(int n)
 	return ccfibonacci(n-2)+ccfibonacci(n-1);
 }
 
+double min(double a, double b)
+{
+    if(a < b)
+        return a;
+    return b;
+}
+
+double ccfloat(double nr, double ng, double nv, double nb)
+{
+    double m = min (nr, min (ng, nb));
+    double nm = nv-m;
+    double ns = ns = nm / nv ;
+    double r1 = (nv - nr) / nm ;
+    double g1 = (nv - ng) / nm ;
+    double b1 = (nv - nb) / nm ;
+    double nh;
+
+    if (nv == nr)
+    {
+        if (m == ng)
+            nh = 5.0 + b1 ;
+        else
+            nh = 1.0 - g1 ;
+    }
+
+    else if (nv == ng)
+    {
+        if (m == nb)
+            nh = 1.0 + r1 ;
+        else
+            nh = 3.0 - b1 ;
+    }
+
+    else if (nv == nb)
+    {
+        if (m == nr)
+            nh = 3.0 + g1 ;
+        else
+            nh = 5.0 - r1 ;
+    }
+
+    return nh;
+}
+
 int plus(int a, int b){
 	return a + b;
 }

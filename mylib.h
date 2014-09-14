@@ -36,6 +36,7 @@ typedef struct HockeyPlayer
 	int goals;
 } HockeyPlayer;
 
+double ccfloat(double nr, double ng, double nv, double nb);
 int ccfibonacci(int n);
 int plus(int a, int b);
 int plusPtr(int* a, int* b);
