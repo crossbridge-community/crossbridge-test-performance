@@ -26,15 +26,9 @@
 # =END MIT LICENSE
 #
 
-$?FLASCC=$(PWD)/../../sdk
-#$?AIR_HOME=/path/to/adobe/air/sdk
-
-$?CFLAGS=-O4
-
-.PHONY:  all clean build debug  
-
-# Path Helper
+# Detect host 
 $?UNAME=$(shell uname -s)
+#$(info $(UNAME))
 ifneq (,$(findstring CYGWIN,$(UNAME)))
 	$?nativepath=$(shell cygpath -at mixed $(1))
 	$?unixpath=$(shell cygpath -at unix $(1))
@@ -43,16 +37,43 @@ else
 	$?unixpath=$(abspath $(1))
 endif
 
-all: clean build
+# CrossBridge SDK Home
+ifneq "$(wildcard $(call unixpath,$(FLASCC_ROOT)/sdk))" ""
+ $?FLASCC:=$(call unixpath,$(FLASCC_ROOT)/sdk)
+else
+ $?FLASCC:=/path/to/crossbridge-sdk/
+endif
+$?ASC2=java -jar $(call nativepath,$(FLASCC)/usr/lib/asc2.jar) -merge -md -parallel
+ 
+# Auto Detect AIR/Flex SDKs
+ifneq "$(wildcard $(AIR_HOME)/lib/compiler.jar)" ""
+ $?FLEX=$(AIR_HOME)
+else
+ $?FLEX:=/path/to/adobe-air-sdk/
+endif
+
+# C/CPP Compiler
+$?BASE_CFLAGS=-Werror -Wno-write-strings -Wno-trigraphs
+$?EXTRACFLAGS=
+$?OPT_CFLAGS=-O4
+
+# ASC2 Compiler
+$?MXMLC_DEBUG=false
+$?SWF_VERSION=26
+$?SWF_SIZE=800x600
+
+all: clean
+	@echo "-> Generate SWIG wrappers around the functions in the library"
+	"$(FLASCC)/usr/bin/swig" -as3 -module MyLib -outdir . -includeall -ignoremissing -o MyLib_wrapper.c swig.i
+	@echo "-> Compile the SWIG wrapper to ABC"
+	$(ASC2) -abcfuture -AS3 -import $(call nativepath,$(FLASCC)/usr/lib/builtin.abc) -import $(call nativepath,$(FLASCC)/usr/lib/playerglobal.abc) MyLib.as
+	# rename the output so the compiler doesn't accidentally use both this .as file along with the .abc file we just produced
+	mv MyLib.as MyLib.as3
+	@echo "-> Compile the library into a SWC"
+	"$(FLASCC)/usr/bin/gcc" $(BASE_CFLAGS) MyLib.abc MyLib_wrapper.c mylibmain.c mylib.c -emit-swc=sample.MyLib -o release/MyLib.swc
+	@echo "-> Compile an example SWF that uses that SWC"
+	"$(FLEX)/bin/mxmlc" -library-path+=release/MyLib.swc PassData.as -debug=$(MXMLC_DEBUG) -o build/PassData.swf
 
 clean:
-	@echo "Cleaning ..."
-	@rm -f *.swf
-
-build:
-	@echo "Building ..."
-	#cd library && "$(FLASCC)/usr/bin/g++" -jvmopt=-Xmx1G $(CFLAGS) cmath.cpp cmath4as.cpp main.cpp -emit-swc=ccsample.cmath -o cmath.swc
-	cd client && "$(AIR_HOME)/bin/mxmlc" Main.as -load-config+=../.flexConfig.xml
-
-debug:
-	$(MAKE) build CFLAGS=-O0 -g 
+	rm -rf build
+	rm -f *_wrapper.c *.as3 *.abc

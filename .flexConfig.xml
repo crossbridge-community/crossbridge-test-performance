@@ -15,15 +15,15 @@
   ~ =END MIT LICENSE
   -->
 <flex-config xmlns="http://www.adobe.com/2006/flex-config">  
-    <swf-version>25</swf-version>
-    <target-player>14.0</target-player> 
+    <swf-version>26</swf-version>
+    <target-player>15.0</target-player> 
     <compiler>
         <define append="true"><name>APP::DEBUG</name><value>true</value></define>
         <source-path>
             <path-element>./client</path-element>
         </source-path>
         <library-path append="true">
-            <path-element>./library</path-element>     
+            <path-element>./release</path-element>     
         </library-path>
     </compiler>
     <metadata>
