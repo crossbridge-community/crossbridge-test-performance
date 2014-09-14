@@ -56,6 +56,8 @@ endif
 $?CFLAGS=-Werror -Wno-write-strings -Wno-trigraphs -O4
 
 all: clean
+	mkdir -p build
+	mkdir -p release
 	@echo "-> Generate SWIG wrappers around the functions in the library"
 	"$(FLASCC)/usr/bin/swig" -as3 -module MyLib -outdir . -includeall -ignoremissing -o MyLib_wrapper.c swig.i
 	@echo "-> Compile the SWIG wrapper to ABC"
@@ -69,4 +71,5 @@ all: clean
 
 clean:
 	rm -rf build
+	rm -rf release
 	rm -f *_wrapper.c *.as3 *.abc
