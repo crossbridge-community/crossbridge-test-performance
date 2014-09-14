@@ -67,9 +67,9 @@ task compile(type: JavaExec) {
     workingDir = "${projectDir}"
     def argsList = [
                 'client/Main.as',
-                '-debug=true',
+                '-debug=false',
                 '-source-path+=client',
-                '-load-config+=.flexConfig.xml',
+                '-library-path+=release',
                 '-output="build/Main.swf"'
             ]
     def airConfig = "${AIR_HOME}" + '/frameworks/flex-config.xml'
